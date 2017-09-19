@@ -100,10 +100,10 @@ Once the workflow is executed, you will see each task's stdout/stderr appear in 
 Please contribute! Please make pull requests directly to master. Before making a pull request, please:
 
 * Ensure that all new functionality is covered by unit tests.
-* Verify that all unit tests are passing.
-* Ensure that all functionality is properly documented.t
-* Ensure that all functions/classes have proper docstrings so sphinx can autogenerate documentation.
-* Fix all versions in setup.py (and requirements.txt)
+* Verify that all unit tests are passing. `TODO use travis to run tests on PRs.`
+* Ensure that all functionality is properly documented. `TODO use mkdocs or sphinx to generate docs for readthedocs.org`
+* Fix all versions in setup.py
+* Update the Changelog with the new features, bug fixes, etc.
 
 ### Run Tests
 
@@ -111,11 +111,11 @@ Please contribute! Please make pull requests directly to master. Before making a
 
 ### Create a new version
 
-To create a new version:
+To create a new version (after all tests have passed and PR is merged):
 
 ```
 bumpversion ( major | minor | patch )
 git push --tags
 ```
 
-Don't forget to update the changelog.
+Versioning is according to [Symantic Versioning](http://semver.org/) system.
