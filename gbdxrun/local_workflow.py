@@ -25,6 +25,8 @@ class LocalWorkflow(object):
         # Create Temporary directory for workflow outputs
         self.temp_output_dir = os.path.realpath(tempfile.mkdtemp())
 
+        self.verbose = False
+
     def execute(self):
         """
         Sort tasks based on dependencies, then execute each.
@@ -32,7 +34,8 @@ class LocalWorkflow(object):
         # sorted_tasks = self._sort_tasks(self.tasks)
         sorted_tasks = self.tasks
 
-        print('Output Root: %s' % self.temp_output_dir)
+        if self.verbose:
+            print('Output Root: %s' % self.temp_output_dir)
 
         try:
             for task in sorted_tasks:
