@@ -206,7 +206,6 @@ class LocalTask(Task):
         cont_output_path = '/mnt/work/output'
 
         vol_mnts = {}
-        # vol_binds = []
 
         string_input_ports = {}
 
@@ -239,11 +238,8 @@ class LocalTask(Task):
                 cont_path = os.path.join(cont_input_path, port.name)
                 vol_mnts[dest_path] = {
                     'bind': cont_path,
-                    'mode': 'ro'
+                    'mode': 'rw'
                 }
-                # vol_binds.append(
-                #     '%s:%s:rw' % (dest_path, cont_path)
-                # )
             else:
                 if port.value.str_value is not None:
                     string_input_ports['gbdx-input-port-' + port.name] = json.dumps(port.value.str_value)
@@ -268,12 +264,8 @@ class LocalTask(Task):
                     'bind': cont_path,
                     'mode': 'rw'
                 }
-                # vol_binds.append(
-                #     '%s:%s:rw' % (dest_path, cont_path)
-                # )
 
         cont_args = {
-            # "image": self.image,
             "volumes": vol_mnts,
             "environment": string_input_ports
         }
