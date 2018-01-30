@@ -8,6 +8,7 @@ import subprocess
 import json
 import time
 import tarfile
+import uuid
 # from docker import Client
 import docker
 
@@ -124,7 +125,21 @@ class LocalOutputs(LocalPortList):
 class LocalTask(Task):
 
     def __init__(self, task_type, **kwargs):
-        super(LocalTask, self).__init__(task_type, **kwargs)
+        if 'task_definition' in kwargs:
+            # Copy init from Task, but replace task_defn
+            self.name = task_type + '_' + str(uuid.uuid4())[:8]
+            self.name = self.name.replace(':', '_')
+            self.definition = kwargs.pop('task_definition')
+            self.domain = self.definition.get('containerDescriptors', [{'properties': {}}])[0]['properties'].get(
+                'domain', 'default')
+            self._timeout = self.definition['properties'].get('timeout')
+            self.batch_values = None
+            self._impersonation_allowed = None
+
+            # all the other kwargs are input port values or sources
+            self.set(**kwargs)
+        else:
+            super(LocalTask, self).__init__(task_type, **kwargs)
 
         # Override Inputs and Outputs with new Port class
         self.inputs = LocalInputs(self.input_ports, self)
