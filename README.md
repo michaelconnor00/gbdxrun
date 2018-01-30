@@ -85,6 +85,34 @@ wf.savedata(
 wf.execute()
 ```
 
+Run a gbdxtools script with a local task definition
+
+``` python
+from gbdxrun import gbdx
+import time
+import json
+
+# set task_definition
+fp = '<FILEPATH_TO_TASK_DEFINITION.JSON>'
+with open(fp) as json_data:
+    defn = json.load(json_data)
+keywords = {'task_definition':defn}
+
+task = gbdx.Task("ENVI_CastRaster",**keywords)
+task.inputs.input_raster = 'some/dir/path'
+task.inputs.data_type = "float"
+wf = gbdx.Workflow([task])
+
+wf.savedata(task.outputs.output_raster_uri, location='some/dir/path')
+
+print('Workflow ID: %s', wf.execute())
+
+while not wf.complete:
+    time.sleep(20)
+
+print('Workflow Complete')
+```
+
 Then it can be executed from a terminal by running the script (below), or you can use iPython or Jupyter to run the workflow interactively.
 
 ```
